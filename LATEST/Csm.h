@@ -18,7 +18,6 @@ class class_Csm{
 /*****************************************************/
 /* FUNCTIONS                                         */
 /*****************************************************/
-      FUNC(void, CSM_CODE) InitFunction               (void);
       FUNC(void, CSM_CODE) GetVersionInfo             (void);
       FUNC(void, CSM_CODE) Hash                       (void);
       FUNC(void, CSM_CODE) MacGenerate                (void);

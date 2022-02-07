@@ -8,15 +8,19 @@
 /*****************************************************/
 #include "Csm.h"
 
+#include "Csm_EcuM.h"
+
 /*****************************************************/
 /* OBJECTS                                           */
 /*****************************************************/
+class_Csm_EcuM Csm_EcuM;
+class_EcuM_Client *EcuM_Client_ptr_Csm = &Csm_EcuM;
 class_Csm Csm;
 
 /*****************************************************/
 /* FUNCTIONS                                         */
 /*****************************************************/
-FUNC(void, CSM_CODE) class_Csm::InitFunction(void){
+FUNC(void, CSM_CODE) class_Csm_EcuM::InitFunction(void){
 }
 
 FUNC(void, CSM_CODE) class_Csm::GetVersionInfo(void){
