@@ -53,7 +53,6 @@ class class_Csm{
       FUNC(void, CSM_CODE) RestoreContextJob          (void);
       FUNC(void, CSM_CODE) CancelJob                  (void);
       FUNC(void, CSM_CODE) CbNotification             (void);
-      FUNC(void, CSM_CODE) MainFunction               (void);
 };
 
 /*****************************************************/

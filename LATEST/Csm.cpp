@@ -9,18 +9,24 @@
 #include "Csm.h"
 
 #include "Csm_EcuM.h"
+#include "Csm_SchM.h"
 
 /*****************************************************/
 /* OBJECTS                                           */
 /*****************************************************/
 class_Csm_EcuM Csm_EcuM;
 class_EcuM_Client *EcuM_Client_ptr_Csm = &Csm_EcuM;
+class_Csm_SchM Csm_SchM;
+class_SchM_Client *SchM_Client_ptr_Csm = &Csm_SchM;
 class_Csm Csm;
 
 /*****************************************************/
 /* FUNCTIONS                                         */
 /*****************************************************/
 FUNC(void, CSM_CODE) class_Csm_EcuM::InitFunction(void){
+}
+
+FUNC(void, CSM_CODE) class_Csm_SchM::MainFunction(void){
 }
 
 FUNC(void, CSM_CODE) class_Csm::GetVersionInfo(void){
@@ -126,9 +132,6 @@ FUNC(void, CSM_CODE) class_Csm::CancelJob(void){
 }
 
 FUNC(void, CSM_CODE) class_Csm::CbNotification(void){
-}
-
-FUNC(void, CSM_CODE) class_Csm::MainFunction(void){
 }
 
 /*****************************************************/
