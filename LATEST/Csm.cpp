@@ -14,19 +14,20 @@
 /*****************************************************/
 /* OBJECTS                                           */
 /*****************************************************/
-class_Csm_EcuM Csm_EcuM;
-class_EcuM_Client *EcuM_Client_ptr_Csm = &Csm_EcuM;
-class_Csm_SchM Csm_SchM;
-class_SchM_Client *SchM_Client_ptr_Csm = &Csm_SchM;
+interface_Csm_EcuM_Init Csm_EcuM_Init;
+interface_Csm_SchM_Main Csm_SchM_Main;
 class_Csm Csm;
+
+interface_EcuM_Init_Client *EcuM_Init_Client_ptr_Csm = &Csm_EcuM_Init;
+interface_SchM_Main_Client *SchM_Main_Client_ptr_Csm = &Csm_SchM_Main;
 
 /*****************************************************/
 /* FUNCTIONS                                         */
 /*****************************************************/
-FUNC(void, CSM_CODE) class_Csm_EcuM::InitFunction(void){
+FUNC(void, CSM_CODE) interface_Csm_EcuM_Init::InitFunction(void){
 }
 
-FUNC(void, CSM_CODE) class_Csm_SchM::MainFunction(void){
+FUNC(void, CSM_CODE) interface_Csm_SchM_Main::MainFunction(void){
 }
 
 FUNC(void, CSM_CODE) class_Csm::GetVersionInfo(void){
