@@ -7,7 +7,8 @@
 /* #INCLUDES                                         */
 /*****************************************************/
 #include "module.h"
-
+#include "Csm_EcuM.h"
+#include "Csm_SchM.h"
 #include "Csm_Unused.h"
 
 /*****************************************************/
@@ -21,7 +22,11 @@
 /*****************************************************/
 /* TYPEDEFS                                          */
 /*****************************************************/
-class module_Csm : public class_module{
+class module_Csm:
+      public abstract_module
+   ,  public interface_Csm_EcuM
+   ,  public interface_Csm_SchM
+{
    public:
       FUNC(void, CSM_CODE) InitFunction   (void);
       FUNC(void, CSM_CODE) DeInitFunction (void);
@@ -33,13 +38,16 @@ class module_Csm : public class_module{
 /*****************************************************/
 module_Csm Csm;
 
-interface_EcuM_Client *EcuM_Client_ptr_Csm = &Csm;
-interface_SchM_Client *SchM_Client_ptr_Csm = &Csm;
+interface_Csm_EcuM *EcuM_Client_ptr_Csm = &Csm;
+interface_Csm_SchM *SchM_Client_ptr_Csm = &Csm;
 
 /*****************************************************/
 /* FUNCTIONS                                         */
 /*****************************************************/
 FUNC(void, CSM_CODE) module_Csm::InitFunction(void){
+}
+
+FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
