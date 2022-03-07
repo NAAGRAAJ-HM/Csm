@@ -24,8 +24,6 @@
 /*****************************************************/
 class module_Csm:
       public abstract_module
-   ,  public interface_Csm_EcuM
-   ,  public interface_Csm_SchM
 {
    public:
       FUNC(void, CSM_CODE) InitFunction   (void);
@@ -34,12 +32,19 @@ class module_Csm:
 };
 
 /*****************************************************/
+/* CONSTS                                            */
+/*****************************************************/
+
+/*****************************************************/
+/* PARAMS                                            */
+/*****************************************************/
+
+/*****************************************************/
 /* OBJECTS                                           */
 /*****************************************************/
-module_Csm Csm;
-
-interface_Csm_EcuM *EcuM_Client_ptr_Csm = &Csm;
-interface_Csm_SchM *SchM_Client_ptr_Csm = &Csm;
+module_Csm     Csm;
+infEcuMClient* gptrinfEcuMClient_Csm = &Csm;
+infSchMClient* gptrinfSchMClient_Csm = &Csm;
 
 /*****************************************************/
 /* FUNCTIONS                                         */
