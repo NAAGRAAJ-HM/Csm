@@ -7,8 +7,8 @@
 /* #INCLUDES                                         */
 /*****************************************************/
 #include "module.h"
-#include "Csm_EcuM.h"
-#include "Csm_SchM.h"
+#include "infCsm_EcuM.h"
+#include "infCsm_SchM.h"
 #include "Csm_Unused.h"
 
 /*****************************************************/
@@ -28,6 +28,7 @@ class module_Csm:
    public:
       FUNC(void, CSM_CODE) InitFunction   (void);
       FUNC(void, CSM_CODE) DeInitFunction (void);
+      FUNC(void, CSM_CODE) GetVersionInfo (void);
       FUNC(void, CSM_CODE) MainFunction   (void);
 };
 
@@ -44,6 +45,7 @@ class module_Csm:
 /*****************************************************/
 module_Csm     Csm;
 infEcuMClient* gptrinfEcuMClient_Csm = &Csm;
+infDcmClient*  gptrinfDcmClient_Csm  = &Csm;
 infSchMClient* gptrinfSchMClient_Csm = &Csm;
 
 /*****************************************************/
@@ -53,6 +55,9 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(void){
 }
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
+}
+
+FUNC(void, CSM_CODE) module_Csm::GetVersionInfo(void){
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
