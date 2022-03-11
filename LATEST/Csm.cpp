@@ -8,8 +8,8 @@
 /*****************************************************/
 #include "module.h"
 #include "infCsm_EcuM.h"
+#include "infCsm_Dcm.h"
 #include "infCsm_SchM.h"
-#include "Csm_Unused.h"
 
 /*****************************************************/
 /* #DEFINES                                          */
@@ -63,8 +63,7 @@ FUNC(void, CSM_CODE) module_Csm::GetVersionInfo(void){
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
 }
 
-FUNC(void, CSM_CODE) class_Csm_Unused::GetVersionInfo(void){
-}
+#include "Csm_Unused.h"
 
 FUNC(void, CSM_CODE) class_Csm_Unused::Hash(void){
 }
