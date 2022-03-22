@@ -7,7 +7,7 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "module.h"
-#include "infCsm_Version.h"
+#include "Csm_Cfg.h"
 #include "infCsm_EcuM.h"
 #include "infCsm_Dcm.h"
 #include "infCsm_SchM.h"
@@ -15,10 +15,19 @@
 /******************************************************************************/
 /* #DEFINES                                                                   */
 /******************************************************************************/
+#define CSM_AR_RELEASE_MAJOR_VERSION                                           4
+#define CSM_AR_RELEASE_MINOR_VERSION                                           3
 
 /******************************************************************************/
 /* MACROS                                                                     */
 /******************************************************************************/
+#if(CSM_AR_RELEASE_MAJOR_VERSION != STD_AR_RELEASE_MAJOR_VERSION)
+   #error "Incompatible CSM_AR_RELEASE_MAJOR_VERSION!"
+#endif
+
+#if(CSM_AR_RELEASE_MINOR_VERSION != STD_AR_RELEASE_MINOR_VERSION)
+   #error "Incompatible CSM_AR_RELEASE_MINOR_VERSION!"
+#endif
 
 /******************************************************************************/
 /* TYPEDEFS                                                                   */
@@ -61,6 +70,11 @@ FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 }
 
 FUNC(void, CSM_CODE) module_Csm::GetVersionInfo(void){
+#if(STD_ON == Csm_DevErrorDetect)
+//TBD: API parameter check
+   Det_ReportError(
+   );
+#endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
