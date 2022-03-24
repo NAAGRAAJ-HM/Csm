@@ -7,7 +7,7 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "module.h"
-#include "Csm_Cfg.h"
+#include "CfgCsm.h"
 #include "infCsm_EcuM.h"
 #include "infCsm_Dcm.h"
 #include "infCsm_SchM.h"
