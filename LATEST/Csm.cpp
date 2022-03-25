@@ -6,11 +6,11 @@
 /******************************************************************************/
 /* #INCLUDES                                                                  */
 /******************************************************************************/
-#include "module.h"
-#include "CfgCsm.h"
-#include "infCsm_EcuM.h"
-#include "infCsm_Dcm.h"
-#include "infCsm_SchM.h"
+#include "module.hpp"
+#include "CfgCsm.hpp"
+#include "infCsm_EcuM.hpp"
+#include "infCsm_Dcm.hpp"
+#include "infCsm_SchM.hpp"
 
 /******************************************************************************/
 /* #DEFINES                                                                   */
@@ -90,7 +90,7 @@ FUNC(void, CSM_CODE) module_Csm::GetVersionInfo(void){
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
 }
 
-#include "Csm_Unused.h"
+#include "Csm_Unused.hpp"
 
 FUNC(void, CSM_CODE) class_Csm_Unused::Hash(void){
 }
