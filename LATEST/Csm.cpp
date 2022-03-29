@@ -7,7 +7,6 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "module.hpp"
-#include "CfgCsm.hpp"
 #include "infCsm_EcuM.hpp"
 #include "infCsm_Dcm.hpp"
 #include "infCsm_SchM.hpp"
@@ -36,37 +35,40 @@ class module_Csm:
       public abstract_module
 {
    public:
+      module_Csm(Std_TypeVersionInfo lVersionInfo) : abstract_module(lVersionInfo){
+      }
       FUNC(void, CSM_CODE) InitFunction   (void);
       FUNC(void, CSM_CODE) DeInitFunction (void);
-      FUNC(void, CSM_CODE) GetVersionInfo (void);
       FUNC(void, CSM_CODE) MainFunction   (void);
-
-   private:
-      CONST(Std_TypeVersionInfo, CSM_CONST) VersionInfo = {
-            0x0000
-         ,  0xFFFF
-         ,  0x01
-         ,  '0'
-         ,  '1'
-         ,  '0'
-      };
 };
+
+extern VAR(module_Csm, CSM_VAR) Csm;
 
 /******************************************************************************/
 /* CONSTS                                                                     */
 /******************************************************************************/
+CONSTP2VAR(infEcuMClient, CSM_VAR, CSM_CONST) gptrinfEcuMClient_Csm = &Csm;
+CONSTP2VAR(infDcmClient,  CSM_VAR, CSM_CONST) gptrinfDcmClient_Csm  = &Csm;
+CONSTP2VAR(infSchMClient, CSM_VAR, CSM_CONST) gptrinfSchMClient_Csm = &Csm;
 
 /******************************************************************************/
 /* PARAMS                                                                     */
 /******************************************************************************/
+#include "CfgCsm.hpp"
 
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-VAR(module_Csm, CSM_VAR) Csm;
-CONSTP2VAR(infEcuMClient, CSM_VAR, CSM_CONST) gptrinfEcuMClient_Csm = &Csm;
-CONSTP2VAR(infDcmClient,  CSM_VAR, CSM_CONST) gptrinfDcmClient_Csm  = &Csm;
-CONSTP2VAR(infSchMClient, CSM_VAR, CSM_CONST) gptrinfSchMClient_Csm = &Csm;
+VAR(module_Csm, CSM_VAR) Csm(
+   {
+         0x0000
+      ,  0xFFFF
+      ,  0x01
+      ,  '0'
+      ,  '1'
+      ,  '0'
+   }
+);
 
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
@@ -77,14 +79,6 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(void){
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
    Csm.IsInitDone = E_NOT_OK;
-}
-
-FUNC(void, CSM_CODE) module_Csm::GetVersionInfo(void){
-#if(STD_ON == Csm_DevErrorDetect)
-//TBD: API parameter check
-   Det_ReportError(
-   );
-#endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
