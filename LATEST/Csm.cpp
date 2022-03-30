@@ -6,7 +6,7 @@
 /******************************************************************************/
 /* #INCLUDES                                                                  */
 /******************************************************************************/
-#include "module.hpp"
+#include "Module.hpp"
 #include "infCsm_EcuM.hpp"
 #include "infCsm_Dcm.hpp"
 #include "infCsm_SchM.hpp"
@@ -37,6 +37,9 @@ class module_Csm:
    public:
       module_Csm(Std_TypeVersionInfo lVersionInfo) : abstract_module(lVersionInfo){
       }
+      FUNC(void, _CODE) InitFunction(
+         CONSTP2CONST(CfgModule_TypeAbstract, _CONFIG_DATA, _APPL_CONST) lptrCfgModule
+      );
       FUNC(void, CSM_CODE) InitFunction   (void);
       FUNC(void, CSM_CODE) DeInitFunction (void);
       FUNC(void, CSM_CODE) MainFunction   (void);
@@ -73,7 +76,19 @@ VAR(module_Csm, CSM_VAR) Csm(
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-FUNC(void, CSM_CODE) module_Csm::InitFunction(void){
+FUNC(void, CSM_CODE) module_Csm::InitFunction(
+   CONSTP2CONST(CfgCsm_Type, CFGCSM_CONFIG_DATA, CFGCSM_APPL_CONST) lptrCfgCsm
+){
+   if(NULL_PTR == lptrCfgCsm){
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+      );
+#endif
+   }
+   else{
+// check lptrCfgCsm for memory faults
+// use PBcfg_Csm as back-up configuration
+   }
    Csm.IsInitDone = E_OK;
 }
 
