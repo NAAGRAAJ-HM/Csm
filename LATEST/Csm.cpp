@@ -37,10 +37,9 @@ class module_Csm:
    public:
       module_Csm(Std_TypeVersionInfo lVersionInfo) : abstract_module(lVersionInfo){
       }
-      FUNC(void, _CODE) InitFunction(
-         CONSTP2CONST(CfgModule_TypeAbstract, _CONFIG_DATA, _APPL_CONST) lptrCfgModule
+      FUNC(void, CSM_CODE) InitFunction(
+         CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
       );
-      FUNC(void, CSM_CODE) InitFunction   (void);
       FUNC(void, CSM_CODE) DeInitFunction (void);
       FUNC(void, CSM_CODE) MainFunction   (void);
 };
@@ -77,23 +76,39 @@ VAR(module_Csm, CSM_VAR) Csm(
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
 FUNC(void, CSM_CODE) module_Csm::InitFunction(
-   CONSTP2CONST(CfgCsm_Type, CFGCSM_CONFIG_DATA, CFGCSM_APPL_CONST) lptrCfgCsm
+   CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
 ){
-   if(NULL_PTR == lptrCfgCsm){
+   if(E_OK == IsInitDone){
 #if(STD_ON == Csm_DevErrorDetect)
       Det_ReportError(
       );
 #endif
    }
    else{
-// check lptrCfgCsm for memory faults
+      if(NULL_PTR == lptrCfgModule){
+#if(STD_ON == Csm_DevErrorDetect)
+         Det_ReportError(
+         );
+#endif
+      }
+      else{
+// check lptrCfgModule for memory faults
 // use PBcfg_Csm as back-up configuration
+      }
+      IsInitDone = E_OK;
    }
-   Csm.IsInitDone = E_OK;
 }
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
-   Csm.IsInitDone = E_NOT_OK;
+   if(E_OK != IsInitDone){
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+      );
+#endif
+   }
+   else{
+      IsInitDone = E_NOT_OK;
+   }
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
