@@ -78,6 +78,7 @@ VAR(module_Csm, CSM_VAR) Csm(
 FUNC(void, CSM_CODE) module_Csm::InitFunction(
    CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
 ){
+#if(STD_ON == Csm_InitCheck)
    if(E_OK == IsInitDone){
 #if(STD_ON == Csm_DevErrorDetect)
       Det_ReportError(
@@ -85,6 +86,7 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
 #endif
    }
    else{
+#endif
       if(NULL_PTR == lptrCfgModule){
 #if(STD_ON == Csm_DevErrorDetect)
          Det_ReportError(
@@ -96,10 +98,13 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
 // use PBcfg_Csm as back-up configuration
       }
       IsInitDone = E_OK;
+#if(STD_ON == Csm_InitCheck)
    }
+#endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
+#if(STD_ON == Csm_InitCheck)
    if(E_OK != IsInitDone){
 #if(STD_ON == Csm_DevErrorDetect)
       Det_ReportError(
@@ -107,11 +112,26 @@ FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 #endif
    }
    else{
+#endif
       IsInitDone = E_NOT_OK;
+#if(STD_ON == Csm_InitCheck)
    }
+#endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
+#if(STD_ON == Csm_InitCheck)
+   if(E_OK != IsInitDone){
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+      );
+#endif
+   }
+   else{
+#endif
+#if(STD_ON == Csm_InitCheck)
+   }
+#endif
 }
 
 class class_Csm_Unused{
