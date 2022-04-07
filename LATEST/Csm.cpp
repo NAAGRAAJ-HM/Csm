@@ -101,8 +101,8 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
             lptrCfg = lptrCfgModule;
          }
          else{
-// use PBcfg_CanIf as back-up configuration
-            lptrCfg = PBcfg_CanIf;
+// use PBcfgCanIf as back-up configuration
+            lptrCfg = &PBcfgCsm;
          }
       }
       IsInitDone = E_OK;
