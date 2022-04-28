@@ -7,6 +7,7 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "Module.hpp"
+#include "Csm_core.hpp"
 #include "infCsm_EcuM.hpp"
 #include "infCsm_Dcm.hpp"
 #include "infCsm_SchM.hpp"
