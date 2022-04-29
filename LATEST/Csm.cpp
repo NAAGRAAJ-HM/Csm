@@ -7,10 +7,9 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "Module.hpp"
+#include "CfgCsm.hpp"
 #include "Csm_core.hpp"
-#include "infCsm_EcuM.hpp"
-#include "infCsm_Dcm.hpp"
-#include "infCsm_SchM.hpp"
+#include "infCsm.hpp"
 
 /******************************************************************************/
 /* #DEFINES                                                                   */
@@ -44,6 +43,7 @@ class module_Csm:
       );
       FUNC(void, CSM_CODE) DeInitFunction (void);
       FUNC(void, CSM_CODE) MainFunction   (void);
+      CSM_CORE_FUNCTIONALITIES
 };
 
 extern VAR(module_Csm, CSM_VAR) Csm;
@@ -58,7 +58,6 @@ CONSTP2VAR(infSchMClient, CSM_VAR, CSM_CONST) gptrinfSchMClient_Csm = &Csm;
 /******************************************************************************/
 /* PARAMS                                                                     */
 /******************************************************************************/
-#include "CfgCsm.hpp"
 
 /******************************************************************************/
 /* OBJECTS                                                                    */

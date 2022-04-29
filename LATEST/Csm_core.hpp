@@ -12,7 +12,7 @@
 /******************************************************************************/
 /* #DEFINES                                                                   */
 /******************************************************************************/
-#define CSM_COREFUNCTIONALITIES                                                \
+#define CSM_CORE_FUNCTIONALITIES                                               \
               FUNC(void, CSM_CODE) Hash                       (void);          \
               FUNC(void, CSM_CODE) MacGenerate                (void);          \
               FUNC(void, CSM_CODE) MacVerify                  (void);          \
@@ -48,7 +48,7 @@
               FUNC(void, CSM_CODE) CancelJob                  (void);          \
               FUNC(void, CSM_CODE) CbNotification             (void);          \
 
-#define CSM_COREFUNCTIONALITIES_VIRTUAL                                        \
+#define CSM_CORE_FUNCTIONALITIES_VIRTUAL                                       \
       virtual FUNC(void, CSM_CODE) Hash                       (void) = 0;      \
       virtual FUNC(void, CSM_CODE) MacGenerate                (void) = 0;      \
       virtual FUNC(void, CSM_CODE) MacVerify                  (void) = 0;      \
@@ -93,7 +93,7 @@
 /******************************************************************************/
 class class_Csm_Functionality{
    public:
-      CSM_COREFUNCTIONALITIES_VIRTUAL
+      CSM_CORE_FUNCTIONALITIES_VIRTUAL
 };
 
 /******************************************************************************/
