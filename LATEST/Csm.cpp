@@ -82,79 +82,79 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
    CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
 ){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK == IsInitDone){
-#if(STD_ON == Csm_DevErrorDetect)
-      Det_ReportError(
-      0 //TBD: IdModule
-   ,  0 //TBD: IdInstance
-   ,  0 //TBD: IdApi
-   ,  0 //TBD: IdError
-      );
+   if(E_OK != IsInitDone){
 #endif
-   }
-   else{
-#endif
-      if(NULL_PTR == lptrCfgModule){
-#if(STD_ON == Csm_DevErrorDetect)
-         Det_ReportError(
-      0 //TBD: IdModule
-   ,  0 //TBD: IdInstance
-   ,  0 //TBD: IdApi
-   ,  0 //TBD: IdError
-         );
-#endif
-      }
-      else{
+      if(NULL_PTR != lptrCfgModule){
          if(STD_LOW){
-// check lptrCfgModule for memory faults
+            // check lptrCfgModule for memory faults
             lptrCfg = lptrCfgModule;
          }
          else{
-// use PBcfgCanIf as back-up configuration
+            // use PBcfgCanIf as back-up configuration
             lptrCfg = &PBcfgCsm;
          }
       }
-      IsInitDone = E_OK;
+      else{
+#if(STD_ON == Csm_DevErrorDetect)
+         Det_ReportError(
+               0 //TBD: IdModule
+            ,  0 //TBD: IdInstance
+            ,  0 //TBD: IdApi
+            ,  0 //TBD: IdError
+         );
+#endif
+      }
 #if(STD_ON == Csm_InitCheck)
+      IsInitDone = E_OK;
+   }
+   else{
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+            0 //TBD: IdModule
+         ,  0 //TBD: IdInstance
+         ,  0 //TBD: IdApi
+         ,  0 //TBD: IdError
+      );
+#endif
    }
 #endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK != IsInitDone){
-#if(STD_ON == Csm_DevErrorDetect)
-      Det_ReportError(
-      0 //TBD: IdModule
-   ,  0 //TBD: IdInstance
-   ,  0 //TBD: IdApi
-   ,  0 //TBD: IdError
-      );
+   if(E_OK == IsInitDone){
 #endif
+#if(STD_ON == Csm_InitCheck)
+      IsInitDone = E_NOT_OK;
    }
    else{
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+            0 //TBD: IdModule
+         ,  0 //TBD: IdInstance
+         ,  0 //TBD: IdApi
+         ,  0 //TBD: IdError
+      );
 #endif
-      IsInitDone = E_NOT_OK;
-#if(STD_ON == Csm_InitCheck)
    }
 #endif
 }
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK != IsInitDone){
-#if(STD_ON == Csm_DevErrorDetect)
-      Det_ReportError(
-      0 //TBD: IdModule
-   ,  0 //TBD: IdInstance
-   ,  0 //TBD: IdApi
-   ,  0 //TBD: IdError
-      );
-#endif
-   }
-   else{
+   if(E_OK == IsInitDone){
 #endif
 #if(STD_ON == Csm_InitCheck)
+   }
+   else{
+#if(STD_ON == Csm_DevErrorDetect)
+      Det_ReportError(
+            0 //TBD: IdModule
+         ,  0 //TBD: IdInstance
+         ,  0 //TBD: IdApi
+         ,  0 //TBD: IdError
+      );
+#endif
    }
 #endif
 }
