@@ -113,7 +113,7 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  0 //TBD: IdError
+         ,  CSM_E_UNINIT
       );
 #endif
    }
@@ -133,7 +133,7 @@ FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  0 //TBD: IdError
+         ,  CSM_E_UNINIT
       );
 #endif
    }
@@ -152,7 +152,7 @@ FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  0 //TBD: IdError
+         ,  CSM_E_UNINIT
       );
 #endif
    }
