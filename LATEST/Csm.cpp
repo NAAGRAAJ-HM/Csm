@@ -89,7 +89,10 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
    CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
 ){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK != IsInitDone){
+   if(
+         E_OK
+      != IsInitDone
+   ){
 #endif
       if(NULL_PTR != lptrCfgModule){
          if(STD_HIGH){
@@ -127,7 +130,10 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
 
 FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK == IsInitDone){
+   if(
+         E_OK
+      == IsInitDone
+   ){
 #endif
 #if(STD_ON == Csm_InitCheck)
       IsInitDone = E_NOT_OK;
@@ -147,7 +153,10 @@ FUNC(void, CSM_CODE) module_Csm::DeInitFunction(void){
 
 FUNC(void, CSM_CODE) module_Csm::MainFunction(void){
 #if(STD_ON == Csm_InitCheck)
-   if(E_OK == IsInitDone){
+   if(
+         E_OK
+      == IsInitDone
+   ){
 #endif
 #if(STD_ON == Csm_InitCheck)
    }
