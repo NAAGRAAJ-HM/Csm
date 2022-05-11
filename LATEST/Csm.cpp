@@ -9,7 +9,7 @@
 #include "Module.hpp"
 #include "CfgCsm.hpp"
 #include "Csm_core.hpp"
-#include "infCsm.hpp"
+#include "infCsm_Exp.hpp"
 
 /******************************************************************************/
 /* #DEFINES                                                                   */
@@ -32,6 +32,7 @@
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
 class module_Csm:
+   INTERFACES_EXPORTED_CSM
       public abstract_module
    ,  public class_Csm_Functionality
 {
