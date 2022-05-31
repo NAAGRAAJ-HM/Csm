@@ -32,7 +32,7 @@
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
 class module_Csm:
-   INTERFACES_EXPORTED_CSM
+      INTERFACES_EXPORTED_CSM
       public abstract_module
    ,  public class_Csm_Functionality
 {
