@@ -72,6 +72,10 @@ CONSTP2VAR(infSchMClient, CSM_VAR, CSM_CONST) gptrinfSchMClient_Csm = &Csm;
 /******************************************************************************/
 VAR(module_Csm, CSM_VAR) Csm(
    {
+#if(STD_ON == _ReSIM)
+// char strModuleName[6];
+#else
+#endif
          CSM_AR_RELEASE_VERSION_MAJOR
       ,  CSM_AR_RELEASE_VERSION_MINOR
       ,  0x00
