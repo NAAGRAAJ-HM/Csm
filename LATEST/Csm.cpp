@@ -10,6 +10,7 @@
 #include "CfgCsm.hpp"
 #include "Csm_core.hpp"
 #include "infCsm_Exp.hpp"
+#include "infCsm_Imp.hpp"
 
 /******************************************************************************/
 /* #DEFINES                                                                   */
