@@ -82,12 +82,7 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
    ){
 #endif
       if(NULL_PTR != lptrCfgModule){
-         if(STD_HIGH){
-            lptrCfg = lptrCfgModule;
-         }
-         else{
-            lptrCfg = &PBcfgCsm;
-         }
+         lptrCfg = lptrCfgModule;
       }
       else{
 #if(STD_ON == Csm_DevErrorDetect)
