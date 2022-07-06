@@ -7,9 +7,7 @@
 /* #INCLUDES                                                                  */
 /******************************************************************************/
 #include "Module.hpp"
-#include "CfgCsm.hpp"
-#include "Csm_core.hpp"
-#include "infCsm_Exp.hpp"
+#include "Csm.hpp"
 #include "infCsm_Imp.hpp"
 
 /******************************************************************************/
@@ -32,26 +30,6 @@
 /******************************************************************************/
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
-class module_Csm:
-      INTERFACES_EXPORTED_CSM
-      public abstract_module
-   ,  public class_Csm_Functionality
-{
-   private:
-/******************************************************************************/
-/* OBJECTS                                                                    */
-/******************************************************************************/
-
-   public:
-      FUNC(void, CSM_CODE) InitFunction(
-         CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
-      );
-      FUNC(void, CSM_CODE) DeInitFunction (void);
-      FUNC(void, CSM_CODE) MainFunction   (void);
-      CSM_CORE_FUNCTIONALITIES
-};
-
-extern VAR(module_Csm, CSM_VAR) Csm;
 
 /******************************************************************************/
 /* CONSTS                                                                     */
