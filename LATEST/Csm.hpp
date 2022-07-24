@@ -7,6 +7,7 @@
 /******************************************************************************/
 /* #INCLUDES                                                                  */
 /******************************************************************************/
+#include "ConstCsm.hpp"
 #include "CfgCsm.hpp"
 #include "Csm_core.hpp"
 #include "infCsm_Exp.hpp"
@@ -31,13 +32,15 @@ class module_Csm:
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
+      const ConstCsm_Type* lptrConst = (ConstCsm_Type*)NULL_PTR;
 
    public:
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
       FUNC(void, CSM_CODE) InitFunction(
-         CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
+            CONSTP2CONST(ConstModule_TypeAbstract, CSM_CONST,       CSM_APPL_CONST) lptrConstModule
+         ,  CONSTP2CONST(CfgModule_TypeAbstract,   CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
       );
       FUNC(void, CSM_CODE) DeInitFunction (void);
       FUNC(void, CSM_CODE) MainFunction   (void);

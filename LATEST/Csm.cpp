@@ -48,7 +48,8 @@ VAR(module_Csm, CSM_VAR) Csm;
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
 FUNC(void, CSM_CODE) module_Csm::InitFunction(
-   CONSTP2CONST(CfgModule_TypeAbstract, CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
+      CONSTP2CONST(ConstModule_TypeAbstract, CSM_CONST,       CSM_APPL_CONST) lptrConstModule
+   ,  CONSTP2CONST(CfgModule_TypeAbstract,   CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
 ){
 #if(STD_ON == Csm_InitCheck)
    if(
@@ -56,8 +57,12 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
       != IsInitDone
    ){
 #endif
-      if(NULL_PTR != lptrCfgModule){
-         lptrCfg = lptrCfgModule;
+      if(
+            (NULL_PTR != lptrConstModule)
+         && (NULL_PTR != lptrCfgModule)
+      ){
+         lptrConst = lptrConstModule;
+         lptrCfg   = lptrCfgModule;
       }
       else{
 #if(STD_ON == Csm_DevErrorDetect)
