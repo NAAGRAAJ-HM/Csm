@@ -61,7 +61,7 @@ FUNC(void, CSM_CODE) module_Csm::InitFunction(
             (NULL_PTR != lptrConstModule)
          && (NULL_PTR != lptrCfgModule)
       ){
-         lptrConst = lptrConstModule;
+         lptrConst = (const ConstCsm_Type*)lptrConstModule;
          lptrCfg   = lptrCfgModule;
       }
       else{
