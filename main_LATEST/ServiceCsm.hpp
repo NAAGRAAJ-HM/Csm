@@ -24,7 +24,7 @@
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
 class module_ServiceCsm:
-      INTERFACES_EXPORTED_CSM
+      INTERFACES_EXMCALPORTED_SERVICECSM
       public abstract_module
    ,  public class_ServiceCsm_Functionality
 {
@@ -38,13 +38,13 @@ class module_ServiceCsm:
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-      FUNC(void, CSM_CODE) InitFunction(
-            CONSTP2CONST(ConstModule_TypeAbstract, CSM_CONST,       CSM_APPL_CONST) lptrConstModule
-         ,  CONSTP2CONST(CfgModule_TypeAbstract,   CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
+      FUNC(void, SERVICECSM_CODE) InitFunction(
+            CONSTP2CONST(ConstModule_TypeAbstract, SERVICECSM_CONST,       SERVICECSM_APPL_CONST) lptrConstModule
+         ,  CONSTP2CONST(CfgModule_TypeAbstract,   SERVICECSM_CONFIG_DATA, SERVICECSM_APPL_CONST) lptrCfgModule
       );
-      FUNC(void, CSM_CODE) DeInitFunction (void);
-      FUNC(void, CSM_CODE) MainFunction   (void);
-      CSM_CORE_FUNCTIONALITIES
+      FUNC(void, SERVICECSM_CODE) DeInitFunction (void);
+      FUNC(void, SERVICECSM_CODE) MainFunction   (void);
+      SERVICECSM_CORE_FUNCTIONALITIES
 };
 
 /******************************************************************************/
@@ -58,7 +58,7 @@ class module_ServiceCsm:
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-extern VAR(module_ServiceCsm, CSM_VAR) ServiceCsm;
+extern VAR(module_ServiceCsm, SERVICECSM_VAR) ServiceCsm;
 
 /******************************************************************************/
 /* EOF                                                                        */

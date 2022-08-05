@@ -13,18 +13,18 @@
 /******************************************************************************/
 /* #DEFINES                                                                   */
 /******************************************************************************/
-#define CSM_AR_RELEASE_VERSION_MAJOR                                           4
-#define CSM_AR_RELEASE_VERSION_MINOR                                           3
+#define SERVICECSM_AR_RELEASE_VERSION_MAJOR                                           4
+#define SERVICECSM_AR_RELEASE_VERSION_MINOR                                           3
 
 /******************************************************************************/
 /* MACROS                                                                     */
 /******************************************************************************/
-#if(CSM_AR_RELEASE_VERSION_MAJOR != STD_AR_RELEASE_VERSION_MAJOR)
-   #error "Incompatible CSM_AR_RELEASE_VERSION_MAJOR!"
+#if(SERVICECSM_AR_RELEASE_VERSION_MAJOR != STD_AR_RELEASE_VERSION_MAJOR)
+   #error "Incompatible SERVICECSM_AR_RELEASE_VERSION_MAJOR!"
 #endif
 
-#if(CSM_AR_RELEASE_VERSION_MINOR != STD_AR_RELEASE_VERSION_MINOR)
-   #error "Incompatible CSM_AR_RELEASE_VERSION_MINOR!"
+#if(SERVICECSM_AR_RELEASE_VERSION_MINOR != STD_AR_RELEASE_VERSION_MINOR)
+   #error "Incompatible SERVICECSM_AR_RELEASE_VERSION_MINOR!"
 #endif
 
 /******************************************************************************/
@@ -42,14 +42,14 @@
 /******************************************************************************/
 /* OBJECTS                                                                    */
 /******************************************************************************/
-VAR(module_ServiceCsm, CSM_VAR) ServiceCsm;
+VAR(module_ServiceCsm, SERVICECSM_VAR) ServiceCsm;
 
 /******************************************************************************/
 /* FUNCTIONS                                                                  */
 /******************************************************************************/
-FUNC(void, CSM_CODE) module_ServiceCsm::InitFunction(
-      CONSTP2CONST(ConstModule_TypeAbstract, CSM_CONST,       CSM_APPL_CONST) lptrConstModule
-   ,  CONSTP2CONST(CfgModule_TypeAbstract,   CSM_CONFIG_DATA, CSM_APPL_CONST) lptrCfgModule
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::InitFunction(
+      CONSTP2CONST(ConstModule_TypeAbstract, SERVICECSM_CONST,       SERVICECSM_APPL_CONST) lptrConstModule
+   ,  CONSTP2CONST(CfgModule_TypeAbstract,   SERVICECSM_CONFIG_DATA, SERVICECSM_APPL_CONST) lptrCfgModule
 ){
 #if(STD_ON == ServiceCsm_InitCheck)
    if(
@@ -83,14 +83,14 @@ FUNC(void, CSM_CODE) module_ServiceCsm::InitFunction(
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  CSM_E_UNINIT
+         ,  SERVICECSM_E_UNINIT
       );
 #endif
    }
 #endif
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::DeInitFunction(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::DeInitFunction(
    void
 ){
 #if(STD_ON == ServiceCsm_InitCheck)
@@ -108,14 +108,14 @@ FUNC(void, CSM_CODE) module_ServiceCsm::DeInitFunction(
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  CSM_E_UNINIT
+         ,  SERVICECSM_E_UNINIT
       );
 #endif
    }
 #endif
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::MainFunction(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::MainFunction(
    void
 ){
 #if(STD_ON == ServiceCsm_InitCheck)
@@ -132,179 +132,179 @@ FUNC(void, CSM_CODE) module_ServiceCsm::MainFunction(
             0 //TBD: IdModule
          ,  0 //TBD: IdInstance
          ,  0 //TBD: IdApi
-         ,  CSM_E_UNINIT
+         ,  SERVICECSM_E_UNINIT
       );
 #endif
    }
 #endif
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::Hash(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::Hash(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::MacGenerate(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::MacGenerate(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::MacVerify(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::MacVerify(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::Encrypt(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::Encrypt(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::Decrypt(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::Decrypt(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::AEADEncrypt(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::AECUABEADEncrypt(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::AEADDecrypt(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::AECUABEADDecrypt(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::SignatureGenerate(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::SignatureGenerate(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::SignatureVerify(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::SignatureVerify(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::RandomGenerate(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::RandomGenerate(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyElementSet(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyElementSet(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeySetValid(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeySetValid(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeySetInvalid(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeySetInvalid(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyGetStatus(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyGetStatus(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyElementGet(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyElementGet(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyElementCopy(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyElementCopy(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyCopy(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyCopy(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyElementCopyPartial(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyElementCopyPartial(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::RandomSeed(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::RandomSeed(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyGenerate(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyGenerate(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyDerive(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyDerive(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyExchangeCalcPubValue(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyExchangeCalcPubValue(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::KeyExchangeCalcSecret(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::KeyExchangeCalcSecret(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeySetValid(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeySetValid(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeySetInvalid(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeySetInvalid(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobRandomSeed(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobRandomSeed(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeyGenerate(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeyGenerate(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeyDerive(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeyDerive(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeyExchangeCalcPubValue(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeyExchangeCalcPubValue(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::JobKeyExchangeCalcSecret(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::JobKeyExchangeCalcSecret(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::SaveContextJob(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::SaveContextJob(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::RestoreContextJob(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::RestoreContextJob(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::McalCancelJob(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::McalCancelJob(
    void
 ){
 }
 
-FUNC(void, CSM_CODE) module_ServiceCsm::CbNotification(
+FUNC(void, SERVICECSM_CODE) module_ServiceCsm::CbNotification(
    void
 ){
 }
