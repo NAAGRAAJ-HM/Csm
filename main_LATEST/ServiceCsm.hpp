@@ -24,7 +24,7 @@
 /* TYPEDEFS                                                                   */
 /******************************************************************************/
 class module_ServiceCsm:
-      INTERFACES_EXMCALPORTED_SERVICECSM
+      INTERFACES_EXPORTED_SERVICECSM
       public abstract_module
    ,  public class_ServiceCsm_Functionality
 {
