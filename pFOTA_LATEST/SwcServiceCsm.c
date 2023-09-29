@@ -10,7 +10,7 @@ extern "C"
 #include "SchM_Csm.hpp"
 
 #if(CSM_DEV_ERROR_REPORT == STD_ON)
-# include "SwcServiceDet.hpp"
+#include "SwcServiceDet.hpp"
 #endif
 
 #if((CSM_SW_MAJOR_VERSION != (6u)) \
@@ -51,11 +51,11 @@ extern "C"
 #define CSM_ASYNC_JOB_RETRIGGER_STATE_PENDING                         (0x01u)
 
 #if !defined (CSM_LOCAL)
-# define CSM_LOCAL                                                    static
+#define CSM_LOCAL                                                    static
 #endif
 
 #if !defined (CSM_LOCAL_INLINE)
-# define CSM_LOCAL_INLINE                                             LOCAL_INLINE
+#define CSM_LOCAL_INLINE                                             LOCAL_INLINE
 #endif
 
 #define CSM_START_SEC_VAR_ZERO_INIT_8BIT
@@ -78,12 +78,12 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
 
 CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_GetJobObj(uint32 jobId, P2VAR(Csm_SizeOfJobType, AUTOMATIC, AUTOMATIC) jobObjId);
 
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_PrepareJobObj(uint32 jobId, P2VAR(Crypto_JobType, AUTOMATIC, AUTOMATIC) job);
-# endif
+#endif
 
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_EnqueueJob(Csm_QueueInfoIterType queueIdx, P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job);
 
@@ -94,16 +94,16 @@ CSM_LOCAL FUNC(void, CSM_CODE) Csm_TriggerAsynchJobProcessing(Csm_QueueInfoIterT
 CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CancelAsynchronousJob(P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job);
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleApplicationCallback(
-  P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job,
-  Std_ReturnType result,
-  P2VAR(uint8, AUTOMATIC, AUTOMATIC) errorId);
+  P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job
+   ,  Std_ReturnType result
+   ,  P2VAR(uint8, AUTOMATIC, AUTOMATIC) errorId);
 
-#  if(CSM_RTECALLBACK == STD_ON)
+#if(CSM_RTECALLBACK == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleRteCallbacks(void);
-#  endif
+#endif
 
-# endif
+#endif
 
 CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_HandleJobProcessing(Csm_ChannelIdOfQueueInfoType channelId, P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job);
 
@@ -126,9 +126,9 @@ CSM_LOCAL FUNC(void, CSM_CODE) Csm_CallPostJobCallout(P2VAR(Crypto_JobType, AUTO
 
   if(calloutInfoId < Csm_GetSizeOfCalloutInfo()){
     (void)Csm_GetPostJobCalloutFuncOfCallout(Csm_GetCalloutIdxOfCalloutInfo(calloutInfoId))(
-      job,
-      CSM_CALLOUT_STATE_POST_INITIAL,
-      retValFromProcessing);
+      job
+   ,     CSM_CALLOUT_STATE_POST_INITIAL
+   ,     retValFromProcessing);
 
     Csm_SetCalloutStateOfCalloutState(calloutInfoId, CSM_CALLOUT_STATE_IDLE);
   }
@@ -141,15 +141,15 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CallPreJobCallout(P2VAR(Cryp
   calloutInfoId = Csm_GetCalloutInfoIdxOfJobTable(job->jobId);
 
   if(calloutInfoId < Csm_GetSizeOfCalloutInfo()){
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
     uint8 calloutState = Csm_GetCalloutStateOfCalloutState(calloutInfoId);
 
     if( job->jobPrimitiveInfo->processingType == CRYPTO_PROCESSING_ASYNC){
       if((calloutState == CSM_CALLOUT_STATE_IDLE) || (calloutState == CSM_CALLOUT_STATE_PRE_PENDING))
       {
         retVal = Csm_GetPreJobCalloutFuncOfCallout(Csm_GetCalloutIdxOfCalloutInfo(calloutInfoId))(
-          job,
-          (calloutState == CSM_CALLOUT_STATE_IDLE) ? (CSM_CALLOUT_STATE_PRE_INITIAL) : (CSM_CALLOUT_STATE_PRE_PENDING));
+          job
+   ,         (calloutState == CSM_CALLOUT_STATE_IDLE) ? (CSM_CALLOUT_STATE_PRE_INITIAL) : (CSM_CALLOUT_STATE_PRE_PENDING));
 
         switch(retVal)
         {
@@ -176,7 +176,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CallPreJobCallout(P2VAR(Cryp
       }
     }
     else
-# endif
+#endif
     {
       retVal = Csm_GetPreJobCalloutFuncOfCallout(Csm_GetCalloutIdxOfCalloutInfo(calloutInfoId))(job, CSM_CALLOUT_STATE_PRE_INITIAL);
 
@@ -199,7 +199,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CallPreJobCallout(P2VAR(Cryp
 #if(CSM_JOB == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_AppendRedirectionToJob(P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job){
-# if(CSM_INOUTREDIRECTION == STD_ON)
+#if(CSM_INOUTREDIRECTION == STD_ON)
   uint32 jobId = job->jobId;
 
   if(Csm_IsInOutRedirectionMapUsedOfJobTable(jobId)){
@@ -235,20 +235,20 @@ CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_AppendRedirectionToJob(P2VAR(Crypto_Jo
     }
   }
   else
-# endif
+#endif
   {
-# if(CSM_JOB_TYPE_LAYOUT_REDIRECTION_INFO_REF == STD_ON)
+#if(CSM_JOB_TYPE_LAYOUT_REDIRECTION_INFO_REF == STD_ON)
     job->jobRedirectionInfoRef = (P2VAR(Crypto_JobRedirectionInfoType, AUTOMATIC, CSM_VAR_NOINIT)) (NULL_PTR);
-# else
+#else
     CSM_DUMMY_STATEMENT(job);
-# endif
+#endif
   }
 }
 
 CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_HandleJobProcessing(Csm_ChannelIdOfQueueInfoType channelId, P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job){
   Std_ReturnType retVal;
 
-# if(CSM_CALLOUT == STD_ON)
+#if(CSM_CALLOUT == STD_ON)
   Csm_CalloutInfoIdxOfJobTableType calloutInfoId;
 
   calloutInfoId = Csm_GetCalloutInfoIdxOfJobTable(job->jobId);
@@ -256,20 +256,20 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_HandleJobProcessing(Csm_ChannelIdOf
   retVal = Csm_CallPreJobCallout(job);
 
   if((calloutInfoId >= Csm_GetSizeOfCalloutInfo()) || (Csm_GetCalloutStateOfCalloutState(calloutInfoId) == CSM_CALLOUT_STATE_PROCESSING))
-# endif
+#endif
   {
     retVal = EcuabCryIf_ProcessJob(channelId, job);
-# if(CSM_CALLOUT == STD_ON)
+#if(CSM_CALLOUT == STD_ON)
     if(calloutInfoId < Csm_GetSizeOfCalloutInfo()){
-#  if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
       if(job->jobPrimitiveInfo->processingType == CRYPTO_PROCESSING_SYNC)
-#  endif
+#endif
       {
         Csm_SetCalloutStateOfCalloutState(calloutInfoId, CSM_CALLOUT_STATE_POST_INITIAL);
         Csm_CallPostJobCallout(job, &retVal);
       }
     }
-# endif
+#endif
   }
   return retVal;
 }
@@ -279,17 +279,17 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
   uint32 jobId = job->jobId;
   Csm_QueueInfoIterType queueIdx = Csm_GetQueueRefIdxOfJobTable(jobId);
   Csm_ChannelIdOfQueueInfoType channelId = Csm_GetChannelIdOfQueueInfo(queueIdx);
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
   Crypto_JobStateType combinedJobState = job->jobState;
 
-#  if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
+#if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
   combinedJobState |= job->state;
-#  endif
-# endif
+#endif
+#endif
 
   Csm_AppendRedirectionToJob(job);
 
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
 
   if(job->jobPrimitiveInfo->processingType == CRYPTO_PROCESSING_ASYNC){
     boolean gotLockOfQueue = (Csm_GetLockOfQueueState(queueIdx) == 0u) ? TRUE : FALSE;
@@ -299,9 +299,9 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
         || ((combinedJobState & CRYPTO_JOBSTATE_ACTIVE) == CRYPTO_JOBSTATE_ACTIVE))){
       Csm_SetJobState(jobId, CSM_JOB_STATE_PROGRESSING);
       Csm_IncLockOfQueueState(queueIdx);
-#  if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
       Csm_SetRetriggeringOfQueueState(queueIdx, CSM_ASYNC_JOB_RETRIGGER_STATE_IDLE);
-#  endif
+#endif
       SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
 
       retVal = Csm_HandleJobProcessing(channelId, job);
@@ -315,7 +315,7 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
 
     if((retVal == CRYPTO_E_BUSY) || (retVal == CRYPTO_E_QUEUE_FULL)){
       retVal = Csm_EnqueueJob(queueIdx, job);
-#  if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
       if(Csm_IsTriggerAsynchJobsInCallbackOfQueueInfo(queueIdx))
       {
         if(!gotLockOfQueue)
@@ -330,7 +330,7 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
         {
         }
       }
-#  endif
+#endif
     }
 
     else if(retVal == E_OK){
@@ -349,9 +349,9 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
     }
     else{
       Csm_SetJobState(jobId, CSM_JOB_STATE_IDLE);
-#  if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
       job->jobId = CSM_EMPTY_JOB;
-#  endif
+#endif
     }
     SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
   }
@@ -377,9 +377,9 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
       SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
     }
     else
-# else
+#else
   {
-# endif
+#endif
     {
       Csm_SetJobState(jobId, CSM_JOB_STATE_PROGRESSING);
       SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
@@ -389,9 +389,9 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
 
     if((retVal != E_OK) || ((job->jobPrimitiveInputOutput.mode & CRYPTO_OPERATIONMODE_FINISH) == CRYPTO_OPERATIONMODE_FINISH)){
       Csm_SetJobState(jobId, CSM_JOB_STATE_IDLE);
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
       job->jobId = CSM_EMPTY_JOB;
-# endif
+#endif
     }
     else{
       Csm_SetJobState(jobId, CSM_JOB_STATE_ACTIVE);
@@ -401,7 +401,7 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_ProcessJob(P2VAR(Crypto_JobType, AU
   return retVal;
 }
 
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_PrepareJobObj(uint32 jobId, P2VAR(Crypto_JobType, AUTOMATIC, AUTOMATIC) job){
   job->jobId = jobId;
@@ -409,12 +409,12 @@ CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_PrepareJobObj(uint32 jobId, P2VAR(Cryp
   job->jobInfo = Csm_GetAddrJobInfo(Csm_GetJobInfoIdxOfJobTable(jobId));
   job->jobState = CRYPTO_JOBSTATE_IDLE;
 
-#  if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
+#if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
   job->PrimitiveInputOutput = job->jobPrimitiveInputOutput;
   job->state = job->jobState;
-#  endif
+#endif
 }
-# endif
+#endif
 
 CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_GetJobObj(uint32 jobId, P2VAR(Csm_SizeOfJobType, AUTOMATIC, AUTOMATIC) jobObjId){
   Std_ReturnType retVal = CRYPTO_E_BUSY;
@@ -425,30 +425,30 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_GetJobObj(uint32 jobId, P2VAR(Csm_S
     *jobObjId = Csm_GetJobToObjMap(jobId);
     retVal = E_OK;
   }
-# if(CSM_JOBIDXOFJOBTABLE == STD_ON)
+#if(CSM_JOBIDXOFJOBTABLE == STD_ON)
   else
-#  if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
   if(Csm_IsJobUsedOfJobTable(jobId))
-#  endif
+#endif
   {
     *jobObjId = Csm_GetJobIdxOfJobTable(jobId);
     Csm_SetJobToObjMap(jobId, *jobObjId);
-#  if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
     Csm_GetAddrJob(*jobObjId)->jobId = jobId;
-#  endif
+#endif
     retVal = E_OK;
   }
-# endif
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#endif
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
   else{
     Csm_QueueInfoIterType queueIdx = Csm_GetQueueRefIdxOfJobTable(jobId);
     Csm_SizeOfJobType idx;
-#  if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
 
     if(Csm_IsAsynchronousOfJobTable(jobId)){
       retVal = CRYPTO_E_QUEUE_FULL;
 
-      for (idx = Csm_GetJobPoolStartIdxOfQueueInfo(queueIdx); idx < Csm_GetJobPoolEndIdxOfQueueInfo(queueIdx); idx++)
+      for(idx = Csm_GetJobPoolStartIdxOfQueueInfo(queueIdx); idx < Csm_GetJobPoolEndIdxOfQueueInfo(queueIdx); idx++)
       {
         if(Csm_GetJob(idx).jobId == CSM_EMPTY_JOB)
         {
@@ -461,7 +461,7 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_GetJobObj(uint32 jobId, P2VAR(Csm_S
       }
     }
     else
-#  endif
+#endif
     {
       idx = Csm_GetJobObjSynchronousIdxOfQueueInfo(queueIdx);
       if(Csm_GetJob(idx).jobId == CSM_EMPTY_JOB)
@@ -473,12 +473,12 @@ CSM_LOCAL FUNC(Std_ReturnType, CSM_CODE) Csm_GetJobObj(uint32 jobId, P2VAR(Csm_S
       }
     }
   }
-# endif
+#endif
 
   return retVal;
 }
 
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_EnqueueJob(Csm_QueueInfoIterType queueIdx, P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job){
   Std_ReturnType retVal = E_OK;
@@ -491,7 +491,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_EnqueueJob(Csm_QueueInfoIter
   }
 
   else if(Csm_GetQueueIdxOfQueueState(queueIdx) < (Csm_GetQueueEndIdxOfQueueInfo(queueIdx) - 1u)){
-    for (i = Csm_GetQueueStartIdxOfQueueInfo(queueIdx); i <= Csm_GetQueueIdxOfQueueState(queueIdx); i++){
+    for(i = Csm_GetQueueStartIdxOfQueueInfo(queueIdx); i <= Csm_GetQueueIdxOfQueueState(queueIdx); i++){
       if(i == Csm_GetQueueIdxOfQueueState(queueIdx))
       {
         Csm_SetQueue(i, job);
@@ -499,7 +499,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_EnqueueJob(Csm_QueueInfoIter
 
       else if((job->jobInfo->jobPriority <= Csm_GetQueue(i)->jobInfo->jobPriority) || (Csm_GetJobState(Csm_GetQueue(i)->jobId) == CSM_JOB_STATE_ACTIVE))
       {
-        for (j = Csm_GetQueueIdxOfQueueState(queueIdx); j > i; j--)
+        for(j = Csm_GetQueueIdxOfQueueState(queueIdx); j > i; j--)
         {
           Csm_SetQueue(j, Csm_GetQueue(j - 1u));
         }
@@ -525,9 +525,9 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_EnqueueJob(Csm_QueueInfoIter
 CSM_LOCAL FUNC(void, CSM_CODE) Csm_DequeueJob(Csm_QueueInfoIterType queueIdx, uint32 jobId){
   Csm_QueueIterType i, j;
 
-  for (i = Csm_GetQueueIdxOfQueueState(queueIdx); i > Csm_GetQueueStartIdxOfQueueInfo(queueIdx); i--){
+  for(i = Csm_GetQueueIdxOfQueueState(queueIdx); i > Csm_GetQueueStartIdxOfQueueInfo(queueIdx); i--){
     if(jobId == Csm_GetQueue(i - 1u)->jobId){
-      for (j = i; j < Csm_GetQueueIdxOfQueueState(queueIdx); j++)
+      for(j = i; j < Csm_GetQueueIdxOfQueueState(queueIdx); j++)
       {
         Csm_SetQueue(j - 1u, Csm_GetQueue(j));
       }
@@ -548,9 +548,9 @@ CSM_LOCAL FUNC(void, CSM_CODE) Csm_TriggerAsynchJobProcessing(Csm_QueueInfoIterT
     job = Csm_GetQueue(Csm_GetQueueIdxOfQueueState(queueIdx) - 1u);
     jobId = job->jobId;
 
-#  if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
     Csm_SetRetriggeringOfQueueState(queueIdx, CSM_ASYNC_JOB_RETRIGGER_STATE_IDLE);
-#  endif
+#endif
 
     if(jobId < Csm_GetSizeOfJobState()){
       Csm_SetJobState(jobId, CSM_JOB_STATE_PROGRESSING);
@@ -602,7 +602,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CancelAsynchronousJob(P2VAR(
 
   boolean notifyByCallback = FALSE;
 
-#  if(CSM_CANCELATION_DURING_PROCESSING == STD_ON)
+#if(CSM_CANCELATION_DURING_PROCESSING == STD_ON)
   if(Csm_GetJobState(jobId) == CSM_JOB_STATE_WAITING){
     Csm_SetJobState(jobId, CSM_JOB_STATE_CANCELING);
     SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
@@ -630,7 +630,7 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CancelAsynchronousJob(P2VAR(
     }
   }
   else
-#  endif
+#endif
     if(Csm_GetJobState(jobId) == CSM_JOB_STATE_QUEUED){
       if((job->jobPrimitiveInputOutput.mode & CRYPTO_OPERATIONMODE_START) == CRYPTO_OPERATIONMODE_START)
       {
@@ -681,42 +681,42 @@ CSM_LOCAL_INLINE FUNC(Std_ReturnType, CSM_CODE) Csm_CancelAsynchronousJob(P2VAR(
 }
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleApplicationCallback(P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job, Std_ReturnType result, P2VAR(uint8, AUTOMATIC, AUTOMATIC) errorId){
-#  if(CSM_CALLBACK_START_NOTIFICATION == STD_OFF)
+#if(CSM_CALLBACK_START_NOTIFICATION == STD_OFF)
   if((((job->jobPrimitiveInputOutput.mode & CRYPTO_OPERATIONMODE_UPDATE) == CRYPTO_OPERATIONMODE_UPDATE)
           && (job->jobPrimitiveInfo->callbackUpdateNotification == TRUE))
       || ((job->jobPrimitiveInputOutput.mode & CRYPTO_OPERATIONMODE_FINISH) == CRYPTO_OPERATIONMODE_FINISH)
       || (result == CRYPTO_E_JOB_CANCELED))
-#  endif
+#endif
   {
-#  if(CSM_CALLBACKFUNC43OFBSWCALLBACKS == STD_ON)
+#if(CSM_CALLBACKFUNC43OFBSWCALLBACKS == STD_ON)
     if(Csm_IsBswCallbacksUsedOfJobTable(job->jobId) && (Csm_GetCallbackFunc43OfBswCallbacks(Csm_GetBswCallbacksIdxOfJobTable(job->jobId)) != NULL_PTR)){
       Csm_GetCallbackFunc43OfBswCallbacks(Csm_GetBswCallbacksIdxOfJobTable(job->jobId))(job, result);
     }
     else
-#  endif
+#endif
 
-#  if(CSM_CALLBACKFUNC44OFBSWCALLBACKS == STD_ON)
+#if(CSM_CALLBACKFUNC44OFBSWCALLBACKS == STD_ON)
     if(Csm_IsBswCallbacksUsedOfJobTable(job->jobId) && (Csm_GetCallbackFunc44OfBswCallbacks(Csm_GetBswCallbacksIdxOfJobTable(job->jobId)) != NULL_PTR)){
       Csm_GetCallbackFunc44OfBswCallbacks(Csm_GetBswCallbacksIdxOfJobTable(job->jobId))(job->jobId, result);
     }
     else
-#  endif
+#endif
 
-#  if(CSM_CALLBACKFUNC45OFBSWCALLBACKS == STD_ON)
+#if(CSM_CALLBACKFUNC45OFBSWCALLBACKS == STD_ON)
 
     if(Csm_IsBswCallbacksUsedOfJobTable(job->jobId)){
       Csm_GetCallbackFunc45OfBswCallbacks(Csm_GetBswCallbacksIdxOfJobTable(job->jobId))(job, result);
     }
     else
-#  endif
+#endif
 
-#  if(CSM_RTECALLBACK == STD_ON)
+#if(CSM_RTECALLBACK == STD_ON)
     if(Csm_IsRteCallbackUsedOfJobTable(job->jobId)){
       Csm_SetRteResult(Csm_GetRteCallbackIdxOfJobTable(job->jobId), result);
       Csm_SetRteCallbackOccurred(TRUE);
     }
     else
-#  endif
+#endif
 
     {
       *errorId = CSM_E_PARAM_METHOD_INVALID;
@@ -727,7 +727,7 @@ CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleApplicationCallback(P2VAR(Crypto
   }
 }
 
-#  if(CSM_RTECALLBACK == STD_ON)
+#if(CSM_RTECALLBACK == STD_ON)
 
 CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleRteCallbacks(void){
   if(Csm_IsRteCallbackOccurred()){
@@ -735,7 +735,7 @@ CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleRteCallbacks(void){
     Std_ReturnType retVal;
 
     Csm_SetRteCallbackOccurred(FALSE);
-    for (callbackIdx = 0u; callbackIdx < Csm_GetSizeOfRteCallback(); callbackIdx++){
+    for(callbackIdx = 0u; callbackIdx < Csm_GetSizeOfRteCallback(); callbackIdx++){
       retVal = Csm_GetRteResult(callbackIdx);
       if(retVal != CSM_CALLBACK_IDLE)
       {
@@ -745,9 +745,9 @@ CSM_LOCAL_INLINE FUNC(void, CSM_CODE) Csm_HandleRteCallbacks(void){
     }
   }
 }
-#  endif
+#endif
 
-# endif
+#endif
 #endif
 
 FUNC(void, CSM_CODE) Csm_InitMemory(void){
@@ -770,7 +770,7 @@ FUNC(void, CSM_CODE) Csm_Init(void){
 #if(CSM_JOB == STD_ON)
     uint32_least index;
 
-    for (index = 0u; index < Csm_GetSizeOfJob(); index++){
+    for(index = 0u; index < Csm_GetSizeOfJob(); index++){
       Csm_GetJob(index).jobState                                         = CRYPTO_JOBSTATE_IDLE;
       Csm_GetJob(index).jobPrimitiveInputOutput.inputPtr                 = (const uint8*)NULL_PTR;
       Csm_GetJob(index).jobPrimitiveInputOutput.inputLength              = 0u;
@@ -783,60 +783,60 @@ FUNC(void, CSM_CODE) Csm_Init(void){
       Csm_GetJob(index).jobPrimitiveInputOutput.secondaryOutputPtr       = (uint8*) NULL_PTR;
       Csm_GetJob(index).jobPrimitiveInputOutput.secondaryOutputLengthPtr = (uint32*)NULL_PTR;
       Csm_GetJob(index).jobPrimitiveInputOutput.verifyPtr                = (Crypto_VerifyResultType*)NULL_PTR;
-# if(CSM_JOB_TYPE_LAYOUT_INPUT64 == STD_ON)
+#if(CSM_JOB_TYPE_LAYOUT_INPUT64 == STD_ON)
       Csm_GetJob(index).jobPrimitiveInputOutput.input64 = 0u;
-# endif
-# if(CSM_JOB_TYPE_LAYOUT_OUTPUT64_PTR == STD_ON)
+#endif
+#if(CSM_JOB_TYPE_LAYOUT_OUTPUT64_PTR == STD_ON)
       Csm_GetJob(index).jobPrimitiveInputOutput.output64Ptr = NULL_PTR;
-# endif
+#endif
       Csm_GetJob(index).jobPrimitiveInputOutput.mode = 0u;
       Csm_GetJob(index).cryptoKeyId = 0u;
       Csm_GetJob(index).jobId = CSM_EMPTY_JOB;
-# if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
+#if(CSM_JOB_TYPE_LAYOUT_ASR430_COMPATIBILITY == STD_ON)
       Csm_GetJob(index).PrimitiveInputOutput = Csm_GetJob(index).jobPrimitiveInputOutput;
       Csm_GetJob(index).state = CRYPTO_JOBSTATE_IDLE;
-# endif
+#endif
     }
 
-    for (index = 0u; index < Csm_GetSizeOfJobTable(); index++){
-# if(CSM_JOBIDXOFJOBTABLE == STD_ON)
-#  if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+    for(index = 0u; index < Csm_GetSizeOfJobTable(); index++){
+#if(CSM_JOBIDXOFJOBTABLE == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
       if(Csm_IsJobUsedOfJobTable(index))
-#  endif
+#endif
       {
         Csm_GetJob(Csm_GetJobIdxOfJobTable(index)).jobPrimitiveInfo = Csm_GetAddrJobPrimitiveInfo(Csm_GetJobPrimitiveInfoIdxOfJobTable(index));
         Csm_GetJob(Csm_GetJobIdxOfJobTable(index)).jobInfo = Csm_GetAddrJobInfo(Csm_GetJobInfoIdxOfJobTable(index));
         Csm_GetJob(Csm_GetJobIdxOfJobTable(index)).jobId = (uint32)index;
       }
-# endif
+#endif
       Csm_SetJobState(index, CSM_JOB_STATE_IDLE);
     }
 
-    for (index = 0u; index < Csm_GetSizeOfQueueInfo(); index++){
+    for(index = 0u; index < Csm_GetSizeOfQueueInfo(); index++){
       Csm_SetQueueIdxOfQueueState(index, Csm_GetQueueStartIdxOfQueueInfo(index));
       Csm_SetLockOfQueueState(index, 0u);
 
-# if((CSM_ASYNC_PROCESSING == STD_ON) && (CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON))
+#if((CSM_ASYNC_PROCESSING == STD_ON) && (CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON))
       if(Csm_IsTriggerAsynchJobsInCallbackOfQueueInfo(index))
       {
         Csm_SetRetriggeringOfQueueState(index, CSM_ASYNC_JOB_RETRIGGER_STATE_IDLE);
       }
-# endif
+#endif
     }
 
-# if(CSM_CALLOUT == STD_ON)
+#if(CSM_CALLOUT == STD_ON)
 
-    for (index = 0u; index < Csm_GetSizeOfCalloutState(); index++){
+    for(index = 0u; index < Csm_GetSizeOfCalloutState(); index++){
       Csm_SetCalloutStateOfCalloutState(index, CSM_CALLOUT_STATE_IDLE);
     }
-# endif
+#endif
 
-# if(CSM_RTECALLBACK == STD_ON)
+#if(CSM_RTECALLBACK == STD_ON)
     Csm_SetRteCallbackOccurred(FALSE);
-    for (index = 0u; index < Csm_GetSizeOfRteCallback(); index++){
+    for(index = 0u; index < Csm_GetSizeOfRteCallback(); index++){
       Csm_SetRteResult(index, CSM_CALLBACK_IDLE);
     }
-# endif
+#endif
 
 #endif
 
@@ -861,12 +861,12 @@ FUNC(void, CSM_CODE) Csm_Init(void){
 FUNC(void, CSM_CODE) Csm_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, CSM_APPL_VAR) versioninfo){
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
   if(versioninfo == NULL_PTR){
     errorId = CSM_E_PARAM_POINTER;
   }
   else
-# endif
+#endif
   {
     versioninfo->vendorID = (uint16)CSM_VENDOR_ID;
     versioninfo->moduleID = (uint8)CSM_MODULE_ID;
@@ -875,13 +875,13 @@ FUNC(void, CSM_CODE) Csm_GetVersionInfo(P2VAR(Std_VersionInfoType, AUTOMATIC, CS
     versioninfo->sw_patch_version = (uint8)CSM_SW_PATCH_VERSION;
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)CSM_GETVERSIONINFO_ID, errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 }
 #endif
 
@@ -890,27 +890,27 @@ FUNC(void, CSM_CODE) Csm_MainFunction(void){
 
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
   }
   else
-# endif
+#endif
   {
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
 
     Csm_QueueInfoIterType queueIdx;
-#  if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
     Csm_QueueIterType triggerCounter;
-#  endif
+#endif
 
     SchM_Enter_Csm_CSM_EXCLUSIVE_AREA_0();
-    for (queueIdx = 0u; queueIdx < Csm_GetSizeOfQueueInfo(); queueIdx++){
-#  if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+    for(queueIdx = 0u; queueIdx < Csm_GetSizeOfQueueInfo(); queueIdx++){
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
       if(Csm_IsTriggerAsynchJobsInCallbackOfQueueInfo(queueIdx))
       {
-        for (triggerCounter = 0u; triggerCounter < ((Csm_QueueIterType)(Csm_GetQueueEndIdxOfQueueInfo(queueIdx)) - (Csm_QueueIterType)(Csm_GetQueueStartIdxOfQueueInfo(queueIdx))); triggerCounter++)
+        for(triggerCounter = 0u; triggerCounter < ((Csm_QueueIterType)(Csm_GetQueueEndIdxOfQueueInfo(queueIdx)) - (Csm_QueueIterType)(Csm_GetQueueStartIdxOfQueueInfo(queueIdx))); triggerCounter++)
         {
           Csm_TriggerAsynchJobProcessing(queueIdx);
 
@@ -921,16 +921,16 @@ FUNC(void, CSM_CODE) Csm_MainFunction(void){
         }
       }
       else
-#  endif
+#endif
       {
         Csm_TriggerAsynchJobProcessing(queueIdx);
       }
     }
     SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
 
-#  if(CSM_CALLOUT == STD_ON){
+#if(CSM_CALLOUT == STD_ON){
       Csm_CalloutInfoIterType calloutInfoIdx;
-      for (calloutInfoIdx = 0u; calloutInfoIdx < Csm_GetSizeOfCalloutInfo(); calloutInfoIdx++)
+      for(calloutInfoIdx = 0u; calloutInfoIdx < Csm_GetSizeOfCalloutInfo(); calloutInfoIdx++)
       {
         if(Csm_GetCalloutStateOfCalloutState(calloutInfoIdx) == CSM_CALLOUT_STATE_PROCESSING_ABORTED_BY_CALLOUT)
         {
@@ -938,34 +938,34 @@ FUNC(void, CSM_CODE) Csm_MainFunction(void){
         }
       }
     }
-#  endif
+#endif
 
-#  if(CSM_RTECALLBACK == STD_ON)
+#if(CSM_RTECALLBACK == STD_ON)
     Csm_HandleRteCallbacks();
-#  endif
+#endif
 
-# endif
+#endif
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_MAINFUNCTION_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 #endif
 }
 
-FUNC(void, CSM_CODE) Csm_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job,
-                                              Std_ReturnType result){
+FUNC(void, CSM_CODE) Csm_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job
+   ,                                             Std_ReturnType result){
 #if(CSM_JOB == STD_ON) && (CSM_ASYNC_PROCESSING == STD_ON)
 
   uint8 errorId = CSM_E_NO_ERROR;
   Std_ReturnType resultCopy = result;
   boolean notify = TRUE;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -978,19 +978,19 @@ FUNC(void, CSM_CODE) Csm_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, C
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     uint32 jobId = job->jobId;
 
     SchM_Enter_Csm_CSM_EXCLUSIVE_AREA_0();
-# if(CSM_CANCELATION_DURING_PROCESSING == STD_ON)
+#if(CSM_CANCELATION_DURING_PROCESSING == STD_ON)
 
     if(Csm_GetJobState(jobId) == CSM_JOB_STATE_CANCELED){
       resultCopy = CRYPTO_E_JOB_CANCELED;
       Csm_SetJobState(jobId, CSM_JOB_STATE_IDLE);
     }
     else
-# endif
+#endif
 
     if(Csm_GetJobState(jobId) == CSM_JOB_STATE_PROGRESSING){
       Csm_SetJobState(jobId, CSM_JOB_STATE_CALLBACK_OCCURRED | resultCopy);
@@ -1007,25 +1007,25 @@ FUNC(void, CSM_CODE) Csm_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, C
     SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
 
     if(notify){
-# if(CSM_CALLOUT == STD_ON)
+#if(CSM_CALLOUT == STD_ON)
       Csm_CallPostJobCallout(job, &resultCopy);
-# endif
+#endif
 
       Csm_HandleApplicationCallback(job, resultCopy, &errorId);
 
-# if(CSM_JOBIDXOFJOBTABLE == STD_ON) && (CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBIDXOFJOBTABLE == STD_ON) && (CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
       if(!(Csm_IsJobUsedOfJobTable(jobId)))
-# endif
+#endif
       {
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
         if((resultCopy != E_OK) || ((job->jobPrimitiveInputOutput.mode & CRYPTO_OPERATIONMODE_FINISH) == CRYPTO_OPERATIONMODE_FINISH))
         {
           job->jobId = CSM_EMPTY_JOB;
         }
-# endif
+#endif
       }
 
-# if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
+#if(CSM_TRIGGERASYNCHJOBSINCALLBACKOFQUEUEINFO == STD_ON)
       {
         Csm_QueueInfoIterType queueIdx;
         queueIdx = Csm_GetQueueRefIdxOfJobTable(jobId);
@@ -1038,34 +1038,34 @@ FUNC(void, CSM_CODE) Csm_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, C
           SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
         }
       }
-# endif
+#endif
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_CALLBACKNOTIFICATION_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(job);
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 #else
   CSM_DUMMY_STATEMENT(job);
   CSM_DUMMY_STATEMENT(result);
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementSet(uint32 keyId,
-                                                 uint32 keyElementId,
-                                                 P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) keyPtr,
-                                                 uint32 keyLength){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementSet(uint32 keyId
+   ,                                                uint32 keyElementId
+   ,                                                P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) keyPtr
+   ,                                                uint32 keyLength){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1079,18 +1079,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementSet(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyElementSet(Csm_GetCryIfKeyIdOfKey(keyId), keyElementId, keyPtr, keyLength);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYELEMENTSET_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1108,7 +1108,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeySetValid(uint32 keyId){
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1118,18 +1118,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeySetValid(uint32 keyId){
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeySetValid(Csm_GetCryIfKeyIdOfKey(keyId));
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYSETVALID_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1138,16 +1138,16 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeySetValid(uint32 keyId){
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementGet(uint32 keyId,
-                                                 uint32 keyElementId,
-                                                 P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) keyPtr,
-                                                 P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) keyLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementGet(uint32 keyId
+   ,                                                uint32 keyElementId
+   ,                                                P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) keyPtr
+   ,                                                P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) keyLengthPtr){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1162,18 +1162,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementGet(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyElementGet(Csm_GetCryIfKeyIdOfKey(keyId), keyElementId, keyPtr, keyLengthPtr);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYELEMENTGET_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1185,16 +1185,16 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementGet(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopy(uint32 keyId,
-                                                  uint32 keyElementId,
-                                                  uint32 targetKeyId,
-                                                  uint32 targetKeyElementId){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopy(uint32 keyId
+   ,                                                 uint32 keyElementId
+   ,                                                 uint32 targetKeyId
+   ,                                                 uint32 targetKeyElementId){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1204,18 +1204,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopy(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyElementCopy(Csm_GetCryIfKeyIdOfKey(keyId), keyElementId, Csm_GetCryIfKeyIdOfKey(targetKeyId), targetKeyElementId);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYELEMENTCOPY_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1227,19 +1227,19 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopy(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopyPartial( uint32 keyId,
-                                                          uint32 keyElementId,
-                                                          uint32 keyElementSourceOffset,
-                                                          uint32 keyElementTargetOffset,
-                                                          uint32 keyElementCopyLength,
-                                                          uint32 targetKeyId,
-                                                          uint32 targetKeyElementId){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopyPartial( uint32 keyId
+   ,                                                         uint32 keyElementId
+   ,                                                         uint32 keyElementSourceOffset
+   ,                                                         uint32 keyElementTargetOffset
+   ,                                                         uint32 keyElementCopyLength
+   ,                                                         uint32 targetKeyId
+   ,                                                         uint32 targetKeyElementId){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1249,18 +1249,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopyPartial( uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyElementCopyPartial(Csm_GetCryIfKeyIdOfKey(keyId), keyElementId, keyElementSourceOffset, keyElementTargetOffset, keyElementCopyLength, Csm_GetCryIfKeyIdOfKey(targetKeyId), targetKeyElementId);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYELEMENTCOPYPARTIAL_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1275,14 +1275,14 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyElementCopyPartial( uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyCopy(uint32 keyId,
-                                           uint32 targetKeyId){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyCopy(uint32 keyId
+   ,                                          uint32 targetKeyId){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1292,18 +1292,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyCopy(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyCopy(Csm_GetCryIfKeyIdOfKey(keyId), Csm_GetCryIfKeyIdOfKey(targetKeyId));
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYCOPY_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1313,15 +1313,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyCopy(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_RandomSeed(uint32 keyId,
-                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) seedPtr,
-                                              uint32 seedLength){
+FUNC(Std_ReturnType, CSM_CODE) Csm_RandomSeed(uint32 keyId
+   ,                                             P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) seedPtr
+   ,                                             uint32 seedLength){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1335,18 +1335,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_RandomSeed(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = EcuabCryIf_RandomSeed(Csm_GetCryIfKeyIdOfKey(keyId), seedPtr, seedLength);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_RANDOMSEED_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1363,7 +1363,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyGenerate(uint32 keyId){
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1373,18 +1373,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyGenerate(uint32 keyId){
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = EcuabCryIf_KeyGenerate(Csm_GetCryIfKeyIdOfKey(keyId));
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYGENERATE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1393,14 +1393,14 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyGenerate(uint32 keyId){
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyDerive(uint32 keyId,
-                                             uint32 targetKeyId){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyDerive(uint32 keyId
+   ,                                            uint32 targetKeyId){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1410,18 +1410,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyDerive(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyDerive(Csm_GetCryIfKeyIdOfKey(keyId), Csm_GetCryIfKeyIdOfKey(targetKeyId));
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYDERIVE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1431,15 +1431,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyDerive(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcPubVal(uint32 keyId,
-                                                         P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) publicValuePtr,
-                                                         P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) publicValueLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcPubVal(uint32 keyId
+   ,                                                        P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) publicValuePtr
+   ,                                                        P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) publicValueLengthPtr){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1454,18 +1454,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcPubVal(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyExchangeCalcPubVal(Csm_GetCryIfKeyIdOfKey(keyId), publicValuePtr, publicValueLengthPtr);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYEXCHANGECALCPUBVAL_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1476,15 +1476,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcPubVal(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcSecret(uint32 keyId,
-                                                         P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) partnerPublicValuePtr,
-                                                         uint32 partnerPublicValueLength){
+FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcSecret(uint32 keyId
+   ,                                                        P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) partnerPublicValuePtr
+   ,                                                        uint32 partnerPublicValueLength){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1498,18 +1498,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_KeyExchangeCalcSecret(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_KeyExchangeCalcSecret(Csm_GetCryIfKeyIdOfKey(keyId), partnerPublicValuePtr, partnerPublicValueLength);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_KEYEXCHANGECALCSECRET_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1526,7 +1526,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateParse(uint32 keyId){
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1536,18 +1536,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateParse(uint32 keyId){
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_CertificateParse(Csm_GetCryIfKeyIdOfKey(keyId));
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_CERTIFICATEPARSE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1556,15 +1556,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateParse(uint32 keyId){
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateVerify(uint32 keyId,
-                                                     uint32 verifyKeyId,
-                                                     P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateVerify(uint32 keyId
+   ,                                                    uint32 verifyKeyId
+   ,                                                    P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
 #if(CSM_KEY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1578,18 +1578,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateVerify(uint32 keyId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     retVal = CryIf_CertificateVerify(Csm_GetCryIfKeyIdOfKey(keyId), Csm_GetCryIfKeyIdOfKey(verifyKeyId), verifyPtr);
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_CERTIFICATEVERIFY_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1600,14 +1600,14 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CertificateVerify(uint32 keyId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
-                                             Crypto_OperationModeType mode){
+FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId
+   ,                                            Crypto_OperationModeType mode){
 #if(CSM_JOB == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1617,7 +1617,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     SchM_Enter_Csm_CSM_EXCLUSIVE_AREA_0();
 
@@ -1628,14 +1628,14 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
     else{
       P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job = Csm_GetAddrJob(Csm_GetJobToObjMap(jobId));
 
-# if(CSM_ASYNC_PROCESSING == STD_ON)
+#if(CSM_ASYNC_PROCESSING == STD_ON)
       if(Csm_IsAsynchronousOfJobTable(jobId))
       {
         retVal = Csm_CancelAsynchronousJob(job);
         SchM_Exit_Csm_CSM_EXCLUSIVE_AREA_0();
       }
       else
-# endif
+#endif
       if(Csm_GetJobState(jobId) == CSM_JOB_STATE_ACTIVE)
       {
         Csm_SetJobState(jobId, CSM_JOB_STATE_CANCELING);
@@ -1645,15 +1645,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
 
         if(retVal == E_OK)
         {
-# if(CSM_CALLOUT == STD_ON)
+#if(CSM_CALLOUT == STD_ON)
 
           retVal = CRYPTO_E_JOB_CANCELED;
           Csm_CallPostJobCallout(job, &retVal);
           retVal = E_OK;
-# endif
-# if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
+#endif
+#if(CSM_JOBSHARINGOFQUEUEINFO == STD_ON)
           job->jobId = CSM_EMPTY_JOB;
-# endif
+#endif
           Csm_SetJobState(jobId, CSM_JOB_STATE_IDLE);
         }
         else
@@ -1669,13 +1669,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_CANCELJOB_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   CSM_DUMMY_STATEMENT(mode);
   return retVal;
@@ -1687,18 +1687,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_CancelJob(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_Hash(uint32 jobId,
-                                        Crypto_OperationModeType mode,
-                                        P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                        uint32 dataLength,
-                                        P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr,
-                                        P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_Hash(uint32 jobId
+   ,                                       Crypto_OperationModeType mode
+   ,                                       P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                       uint32 dataLength
+   ,                                       P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr
+   ,                                       P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
 #if(CSM_EXIST_HASH == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1712,7 +1712,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Hash(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -1737,13 +1737,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Hash(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_HASH_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1757,18 +1757,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Hash(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_MacGenerate(uint32 jobId,
-                                               Crypto_OperationModeType mode,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                               uint32 dataLength,
-                                               P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) macPtr,
-                                               P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) macLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_MacGenerate(uint32 jobId
+   ,                                              Crypto_OperationModeType mode
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                              uint32 dataLength
+   ,                                              P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) macPtr
+   ,                                              P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) macLengthPtr){
 #if(CSM_EXIST_MACGENERATE == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1782,7 +1782,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacGenerate(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -1807,13 +1807,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacGenerate(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_MACGENERATE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1827,19 +1827,19 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacGenerate(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_MacVerify(uint32 jobId,
-                                             Crypto_OperationModeType mode,
-                                             P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                             uint32 dataLength,
-                                             P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) macPtr,
-                                             uint32 macLength,
-                                             P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_MacVerify(uint32 jobId
+   ,                                            Crypto_OperationModeType mode
+   ,                                            P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                            uint32 dataLength
+   ,                                            P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) macPtr
+   ,                                            uint32 macLength
+   ,                                            P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
 #if(CSM_EXIST_MACVERIFY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1853,7 +1853,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacVerify(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -1879,13 +1879,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacVerify(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_MACVERIFY_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1900,18 +1900,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_MacVerify(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_Encrypt(uint32 jobId,
-                                           Crypto_OperationModeType mode,
-                                           P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                           uint32 dataLength,
-                                           P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr,
-                                           P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_Encrypt(uint32 jobId
+   ,                                          Crypto_OperationModeType mode
+   ,                                          P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                          uint32 dataLength
+   ,                                          P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr
+   ,                                          P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
 #if(CSM_EXIST_ENCRYPT == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1925,7 +1925,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Encrypt(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -1950,13 +1950,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Encrypt(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_ENCRYPT_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -1970,18 +1970,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Encrypt(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_Decrypt(uint32 jobId,
-                                           Crypto_OperationModeType mode,
-                                           P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                           uint32 dataLength,
-                                           P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr,
-                                           P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_Decrypt(uint32 jobId
+   ,                                          Crypto_OperationModeType mode
+   ,                                          P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                          uint32 dataLength
+   ,                                          P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr
+   ,                                          P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
 #if(CSM_EXIST_DECRYPT == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -1995,7 +1995,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Decrypt(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2020,13 +2020,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Decrypt(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_DECRYPT_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2040,22 +2040,22 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_Decrypt(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_AEADEncrypt(uint32 jobId,
-                                               Crypto_OperationModeType mode,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) plaintextPtr,
-                                               uint32 plaintextLength,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) associatedDataPtr,
-                                               uint32 associatedDataLength,
-                                               P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) ciphertextPtr,
-                                               P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) ciphertextLengthPtr,
-                                               P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) tagPtr,
-                                               P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) tagLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_AEADEncrypt(uint32 jobId
+   ,                                              Crypto_OperationModeType mode
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) plaintextPtr
+   ,                                              uint32 plaintextLength
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) associatedDataPtr
+   ,                                              uint32 associatedDataLength
+   ,                                              P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) ciphertextPtr
+   ,                                              P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) ciphertextLengthPtr
+   ,                                              P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) tagPtr
+   ,                                              P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) tagLengthPtr){
 #if(CSM_EXIST_AEADENCRYPT == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2069,7 +2069,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADEncrypt(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2098,13 +2098,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADEncrypt(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_AEADENCRYPT_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2122,23 +2122,23 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADEncrypt(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_AEADDecrypt(uint32 jobId,
-                                               Crypto_OperationModeType mode,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) ciphertextPtr,
-                                               uint32 ciphertextLength,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) associatedDataPtr,
-                                               uint32 associatedDataLength,
-                                               P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) tagPtr,
-                                               uint32 tagLength,
-                                               P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) plaintextPtr,
-                                               P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) plaintextLengthPtr,
-                                               P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_AEADDecrypt(uint32 jobId
+   ,                                              Crypto_OperationModeType mode
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) ciphertextPtr
+   ,                                              uint32 ciphertextLength
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) associatedDataPtr
+   ,                                              uint32 associatedDataLength
+   ,                                              P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) tagPtr
+   ,                                              uint32 tagLength
+   ,                                              P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) plaintextPtr
+   ,                                              P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) plaintextLengthPtr
+   ,                                              P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
 #if(CSM_EXIST_AEADDECRYPT == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2152,7 +2152,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADDecrypt(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2182,13 +2182,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADDecrypt(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_AEADDECRYPT_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2207,18 +2207,18 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_AEADDecrypt(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureGenerate(uint32 jobId,
-                                                     Crypto_OperationModeType mode,
-                                                     P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                                     uint32 dataLength,
-                                                     P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr,
-                                                     P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureGenerate(uint32 jobId
+   ,                                                    Crypto_OperationModeType mode
+   ,                                                    P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                                    uint32 dataLength
+   ,                                                    P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr
+   ,                                                    P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
 #if(CSM_EXIST_SIGNATUREGENERATE == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2232,7 +2232,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureGenerate(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2257,13 +2257,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureGenerate(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_SIGNATUREGENERATE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2277,19 +2277,19 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureGenerate(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureVerify(uint32 jobId,
-                                                   Crypto_OperationModeType mode,
-                                                   P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr,
-                                                   uint32 dataLength,
-                                                   P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) signaturePtr,
-                                                   uint32 signatureLength,
-                                                   P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureVerify(uint32 jobId
+   ,                                                  Crypto_OperationModeType mode
+   ,                                                  P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) dataPtr
+   ,                                                  uint32 dataLength
+   ,                                                  P2CONST(uint8, AUTOMATIC, CSM_APPL_VAR) signaturePtr
+   ,                                                  uint32 signatureLength
+   ,                                                  P2VAR(Crypto_VerifyResultType, AUTOMATIC, CSM_APPL_VAR) verifyPtr){
 #if(CSM_EXIST_SIGNATUREVERIFY == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2303,7 +2303,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureVerify(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2329,13 +2329,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureVerify(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_SIGNATUREVERIFY_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2350,15 +2350,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SignatureVerify(uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_RandomGenerate(uint32 jobId,
-                                                  P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr,
-                                                  P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
+FUNC(Std_ReturnType, CSM_CODE) Csm_RandomGenerate(uint32 jobId
+   ,                                                 P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) resultPtr
+   ,                                                 P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) resultLengthPtr){
 #if(CSM_EXIST_RANDOMGENERATE == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2372,7 +2372,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_RandomGenerate(uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2395,13 +2395,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_RandomGenerate(uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_RANDOMGENERATE_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2418,7 +2418,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeySetValid( uint32 jobId, uint32 keyId 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2432,7 +2432,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeySetValid( uint32 jobId, uint32 keyId 
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2454,13 +2454,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeySetValid( uint32 jobId, uint32 keyId 
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBKEYSETVALID_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2476,7 +2476,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobRandomSeed( uint32 jobId, uint32 keyId, 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2490,7 +2490,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobRandomSeed( uint32 jobId, uint32 keyId, 
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2514,13 +2514,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobRandomSeed( uint32 jobId, uint32 keyId, 
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBRANDOMSEED_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2538,7 +2538,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyGenerate( uint32 jobId, uint32 keyId 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2552,7 +2552,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyGenerate( uint32 jobId, uint32 keyId 
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2574,13 +2574,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyGenerate( uint32 jobId, uint32 keyId 
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBKEYGENERATE_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2596,7 +2596,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyDerive( uint32 jobId, uint32 keyId, u
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2610,7 +2610,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyDerive( uint32 jobId, uint32 keyId, u
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2633,13 +2633,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyDerive( uint32 jobId, uint32 keyId, u
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBKEYDERIVE_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2650,16 +2650,16 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyDerive( uint32 jobId, uint32 keyId, u
 #endif
 }
 
-FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcPubVal( uint32 jobId,
-                                                               uint32 keyId,
-                                                               P2VAR( uint8, AUTOMATIC, CSM_APPL_VAR ) publicValuePtr,
-                                                               P2VAR( uint32, AUTOMATIC, CSM_APPL_VAR ) publicValueLengthPtr ){
+FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcPubVal( uint32 jobId
+   ,                                                              uint32 keyId
+   ,                                                              P2VAR( uint8, AUTOMATIC, CSM_APPL_VAR ) publicValuePtr
+   ,                                                              P2VAR( uint32, AUTOMATIC, CSM_APPL_VAR ) publicValueLengthPtr ){
 #if(CSM_EXIST_JOBKEYEXCHANGECALCPUBVAL == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2673,7 +2673,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcPubVal( uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2697,13 +2697,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcPubVal( uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBKEYEXCHANGECALCPUBVAL_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2715,16 +2715,16 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcPubVal( uint32 jobId,
 #endif
 }
 
-FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcSecret(  uint32 jobId,
-                                                                uint32 keyId,
-                                                                P2CONST( uint8, AUTOMATIC, CSM_APPL_VAR ) partnerPublicValuePtr,
-                                                                uint32 partnerPublicValueLength ){
+FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcSecret(  uint32 jobId
+   ,                                                               uint32 keyId
+   ,                                                               P2CONST( uint8, AUTOMATIC, CSM_APPL_VAR ) partnerPublicValuePtr
+   ,                                                               uint32 partnerPublicValueLength ){
 #if(CSM_EXIST_JOBKEYEXCHANGECALCSECRET == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2738,7 +2738,7 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcSecret(  uint32 jobId,
     errorId = CSM_E_PARAM_METHOD_INVALID;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2762,13 +2762,13 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcSecret(  uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError( (uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_JOBKEYEXCHANGECALCSECRET_ID), errorId );
   }
-# else
+#else
   CSM_DUMMY_STATEMENT( errorId );
-# endif
+#endif
 
   return retVal;
 #else
@@ -2780,15 +2780,15 @@ FUNC( Std_ReturnType, CSM_CODE ) Csm_JobKeyExchangeCalcSecret(  uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_SaveContextJob(  uint32 jobId,
-                                                    P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) contextBufferPtr,
-                                                    P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) contextBufferLengthPtr ){
+FUNC(Std_ReturnType, CSM_CODE) Csm_SaveContextJob(  uint32 jobId
+   ,                                                   P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) contextBufferPtr
+   ,                                                   P2VAR(uint32, AUTOMATIC, CSM_APPL_VAR) contextBufferLengthPtr ){
 #if(CSM_JOB == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2806,7 +2806,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SaveContextJob(  uint32 jobId,
     errorId = CSM_E_SERVICE_TYPE;
   }
   else
-# endif
+#endif
 
   if(Csm_GetJobState(jobId) == CSM_JOB_STATE_IDLE){
   }
@@ -2832,13 +2832,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SaveContextJob(  uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_SAVECONTEXTJOB_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
@@ -2849,15 +2849,15 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_SaveContextJob(  uint32 jobId,
 #endif
 }
 
-FUNC(Std_ReturnType, CSM_CODE) Csm_RestoreContextJob(  uint32 jobId,
-                                                       P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) contextBufferPtr,
-                                                       uint32 contextBufferLength ){
+FUNC(Std_ReturnType, CSM_CODE) Csm_RestoreContextJob(  uint32 jobId
+   ,                                                      P2VAR(uint8, AUTOMATIC, CSM_APPL_VAR) contextBufferPtr
+   ,                                                      uint32 contextBufferLength ){
 #if(CSM_JOB == STD_ON)
 
   Std_ReturnType retVal = E_NOT_OK;
   uint8 errorId = CSM_E_NO_ERROR;
 
-# if(CSM_DEV_ERROR_DETECT == STD_ON)
+#if(CSM_DEV_ERROR_DETECT == STD_ON)
 
   if(Csm_IsInitialized != CSM_INITIALIZED){
     errorId = CSM_E_UNINIT;
@@ -2875,7 +2875,7 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_RestoreContextJob(  uint32 jobId,
     errorId = CSM_E_SERVICE_TYPE;
   }
   else
-# endif
+#endif
   {
     P2VAR(Crypto_JobType, AUTOMATIC, CSM_APPL_VAR) job;
     Csm_SizeOfJobType jobObjId = 0u;
@@ -2898,13 +2898,13 @@ FUNC(Std_ReturnType, CSM_CODE) Csm_RestoreContextJob(  uint32 jobId,
     }
   }
 
-# if(CSM_DEV_ERROR_REPORT == STD_ON)
+#if(CSM_DEV_ERROR_REPORT == STD_ON)
   if(errorId != CSM_E_NO_ERROR){
     (void)Det_ReportError((uint16)CSM_MODULE_ID, CSM_INSTANCE_ID, (uint8)(CSM_RESTORECONTEXTJOB_ID), errorId);
   }
-# else
+#else
   CSM_DUMMY_STATEMENT(errorId);
-# endif
+#endif
 
   return retVal;
 #else
