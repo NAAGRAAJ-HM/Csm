@@ -7,7 +7,7 @@ extern "C"
 
 #include "CfgSwcServiceCsm.hpp"
 
-#define CSM_VENDOR_ID                                                (30u)
+#define CSM_VENDOR_ID                                                (1u)
 #define CSM_MODULE_ID                                                (110u)
 #define CSM_INSTANCE_ID                                              (0u)
 #define CSM_AR_RELEASE_MAJOR_VERSION                                 (0x04u)
